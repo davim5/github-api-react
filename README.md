@@ -66,3 +66,158 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+# Passo a passo
+
+## Criando
+
+1. yarn create react-app "name"
+
+2. Tirar comentários do index.html
+
+3. Tirar link de manifest
+
+4. Deletar arquivos
+  * App.css
+  * App.test..
+  * logo.svg
+  * serviceWorker
+
+5. No App.js
+  * Deixar só "h1"
+
+## Configurando Eslint, Editor Config e Prettier
+
+1. Generate editor config
+  * end_of_line = lf
+  * trim_trailing_whitespace = true
+  * insert_final_newline = true
+
+2. yarn add eslint -D
+ * deletar package-lock-json
+ * rodar um yarn
+
+3. yarn add prettier eslint-config-prettier eslint-plugin-prettier babel-eslint -D
+
+4. abrir .eslintrc.js
+ - extends:[
+   'react'
+   'prettier/react'
+ ]
+ - parser: 'babel-eslint'
+ - plugins: [
+   'react',
+   'prettier',
+ ]
+ - rules: {
+    'prettier/prettier': 'error',
+    'react/jsx-filename-extension': [
+      'warn',
+      { extensions: ['.jsx', '.js'] }
+    ],
+    'import/prefer-default-export': 'off'
+  },
+
+5. Criar .prettierrc
+ * {
+   "singleQuote":true,
+   "trailingComma":"es5"
+ }
+
+## Roteamento
+
+1. yarn add react-router-dom
+
+2. criar routes.js na pasta src
+
+3. pasta pages
+
+4. pasta Main
+  * index.js e style.js
+
+5. pasta Repository
+  * index.js e style.js
+
+6. No Main/index.js
+  * rfc
+  * return h1 Main
+
+7. No routes.js
+```
+import React from 'react';
+
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+import Main from './pages/Main/index';
+import Repository from './pages/Repository/index';
+
+export default function Routes() {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={Main} />
+        <Route path="/repository" component={Repository} />
+      </Switch>
+    </BrowserRouter>
+  );
+}
+```
+8. No App.js
+* `` return <Routes/>``
+
+## Styled Components
+1. yarn add styled-components
+
+2. Na pasta Main/styles.js
+  * import styled from 'styled-components'
+
+```
+import styled from 'styled-components';
+
+export const Title = styled.h1`
+  font-size: 18px;
+  color: blue;
+  font-family: Arial, Helvetica, sans-serif;
+  .
+  .
+  .
+`;
+```
+## Estilos Globais
+1. No src
+ * Criar pasta styles
+ * Criar global.js
+
+2. No global.js
+  ```
+  import { createGlobalStyle } from 'styled-components';
+
+export default createGlobalStyle`
+  *{
+    margin: 0;
+    padding: 0;
+    outline: 0;;
+    box-sizing: border-box;
+  }
+
+  html,body,#root{
+    min-height: 100%;
+  }
+
+  body{
+    background: #ccc;
+    -webkit-font-smoothing: antialiased;
+  }
+`;
+  ```
+
+3. No App.js
+ * `` import GlobalStyle from 'styled-components ``
+
+ ```
+    <>
+      <Routes />
+      <GlobalStyle />
+    </>
+ ```
