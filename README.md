@@ -221,3 +221,205 @@ export default createGlobalStyle`
       <GlobalStyle />
     </>
  ```
+## React Icons
+
+1. yarn add react-icons
+* pacote com as fontes mais famosas.
+
+## Criando componentes
+
+### Como decidir se criar componente estilizado ou componente html normal?
+
+#### 1. Se o componente for ter mais de 2 nívels de encadeamento, eu crio um novo componente estilizado.
+
+* Exemplo:
+```
+<Container>
+        <h1>
+          <FaGithubAlt />
+          Repositórios
+        </h1>
+
+        <Form onSubmit={this.handleSubmit}>
+          ...
+        </Form>
+</Container>
+```
+* O componente ``<Form>`` poderia ser uma tag ``<form>`` comum, mas por chegar no segundo nível de encadeamento no componente ``<Container>`` (Container.h1.form), eu crio um novo componente para ficar mais organizado.
+
+#### 2. Toda vez que precisar estilizar o componente baseado em alguma propriedade.
+
+* Exemplo:
+ ```
+ <SubmitButton disabled>
+
+ </SubmitButton>
+
+ ```
+   * Teoricamente, não precisaria ser feito um componente por estar no primeiro nível de encadeamento, mas como será estilizado baseado na propriedade "disabled", cria-se um component.
+
+   #### 3. Passando propriedade pelo CSS.
+
+* Exemplo:
+ ```
+ export const SubmitButton = styled.button.attrs({
+  type: 'submit',
+})`
+ .
+ .
+ .
+`;
+
+ ```
+   * Se não quiser informaro "type" do botão por dentro, pode-se passar o "type" de 'submit' por dentro do estilo.
+
+
+## Componente de Classe
+
+* Para o compente ter um state, tem que ser um componente de classe.
+
+1. Na classe
+  * `import React, { Component } from react;`
+  ```
+  export default class Main extends Component{
+    render(){
+      return(
+        <Container>
+        .
+        .
+        .
+      )
+    }
+  }
+  ```
+
+  * Class component precisa de um 'State'
+
+  ## State
+
+
+1. Na classe
+
+  ```
+  export default class Main extends Component{
+    state ={
+      newRepo: '',
+    }
+    render(){
+     .
+     .
+     .
+    }
+  }
+  ```
+2. No Render
+
+```
+  const {newRepo} = this.state;
+```
+
+3. No input
+```
+        <Form onSubmit={() => {}}>
+          <input type="text" placeholder="Repository Name"
+          value={newRepo}
+           />
+          <SubmitButton>
+            <FaPlus />
+          </SubmitButton>
+        </Form>
+
+```
+
+  * O 'State' tem que estar estar sendo utilizado pela classe.
+
+  ## Criando Métodos do Form
+
+  1. No input
+  ```
+        <Form onSubmit={() => {}}>
+          <input type="text" placeholder="Repository Name"
+          value={newRepo}
+          onChange={this.handleInputChange}
+           />
+          <SubmitButton>
+            <FaPlus />
+          </SubmitButton>
+        </Form>
+
+  ```
+
+  2. Na classe
+   * Método
+   ```
+   export default class Main extends Component{
+    state ={
+      newRepo: '',
+    }
+    // Recebe o evento
+    handleInputChange = e => {
+      // Armazena valor do input na variavel 'newRepo'
+      this.setState({newRepo: e.target.value});
+    }
+    .
+    .
+    .
+  }
+   ```
+  ## Consumir API do Github
+
+   1. Instalar Axios
+
+   * Biblioteca auxiliar para consumir Api externa
+
+   * `yarn add axios`
+
+   2. No src
+   * Criar pasta services
+   * Criar api.js
+
+   3. No api.js
+
+   ```
+    import axios from 'axios';
+
+    const api = axios.create({
+      // URL padronizada para todas as chamadas API
+      baseURL: 'https://api.github.com'
+    });
+
+    export default api;
+
+   ```
+  4. Na Classe Main
+
+    `import api from ../../services/api`
+
+  ## State para ser preenchida como vetor
+
+  * Ele não altera o vetor em si, mas inicializa um novo com tudo que já tinha dentro
+  e adiciona o elemento novo.
+
+  1. No State
+  ```
+    state = {
+      newRepo: '',
+      repositories: [],
+    };
+  ```
+  * Inicia vazio
+
+  2. No Método
+  ```
+    this.setState({
+      repositories: [...repositories, data],
+      newRepo: '',
+    });
+  ```
+
+
+
+
+
+
+
