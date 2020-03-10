@@ -417,6 +417,121 @@ export default createGlobalStyle`
     });
   ```
 
+  ## Adicionar propriedade de loading
+
+    * Será um propriedade que
+   1. No State
+  ```
+    state = {
+      newRepo: '',
+      repositories: [],
+      loading: false,
+    };
+  ```
+  2. No Início do Método
+  ```
+      this.setState({ loading:true });
+  ```
+
+  3. No Fim do Método
+  ```
+      this.setState({ loading:false });
+  ```
+  * Passar propriedade loading, assim o styledComponents consegue ter acesso a essa.
+  propriedade para fazer qualquer alteração
+  4. No Botão
+  ```
+      this.setState({ loading:false });
+  ```
+
+  ### Configurar style para quando uma propriedade for 'true'.
+
+  * A estilização de css colocada, só será aplicada quando o botão estiver com a propriedade 'disabled' como 'true'.
+
+  ```
+  export const SubmitButton = styled.button.attrs({
+  type: 'submit',
+})`
+  background: #ffffff;
+  border: 0;
+  .
+  .
+  .
+  &[disabled]{
+    cursor:not-allowed;
+    opacity:0.6;
+  }
+`;
+  ```
+
+  ### Acessar propriedades do elemento no Style.
+
+  * Setar propriedade 'disabled' baseado na propriedade 'loading'.
+  ```
+  export const SubmitButton = styled.button.attrs(props =>({
+  type: 'submit',
+  disabled: props.loading,
+}))`
+
+`;
+  ```
+
+  ## Adicionar sinal de carregamento
+
+  * Importar icone da bolinha que gira
+
+  * Fazer animação da bolinha no styled-components
+
+  * Conditional rendering: verificar a propriedade
+
+  * Condição dentro do JSX baseado em um valor do state
+
+  * Baseado na informação que se encontra no state, mostra uma informação ou outra.
+
+  ## Colocar efeito girando
+
+  * Importar duas propriedades do 'styled-components'
+
+
+  1. No styles.js
+  `import styled, { keyframes, css} from 'styled-components`
+
+  * Criar animação
+
+    * Keyframes -> Para azer animações
+  ```
+  const rotate = keyframes`
+    from{
+      transform: rotate(0deg);
+    }
+
+    to{
+      transform: rotate(360deg);
+    }
+  `;
+
+  ```
+
+  2. No Componente
+
+  * css: Para adicionar um conjunto de css à um elemento baseado em uma propriedade que vem de fora dele.
+
+  * O que vier depois do '&&' só será aplicado se a propriedade loading for 'true'.
+
+
+
+  ```
+  ${props => props.loading &&
+  css`
+    svg{
+      animation: ${rotate} 2s linear infinite;
+    }
+  `}
+  ```
+
+
+
+
 
 
 
